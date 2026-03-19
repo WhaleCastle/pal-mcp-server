@@ -2,8 +2,6 @@
   "name": "claude",
   "command": "claude",
   "additional_args": [
-    "--permission-mode",
-    "acceptEdits",
     "--model",
     "sonnet"
   ],

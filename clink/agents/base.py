@@ -196,6 +196,16 @@ class BaseCLIAgent:
         base.extend(self.client.config_args)
         base.extend(role.role_args)
 
+        # Prevent accidental agentic invocation for Claude: ensure no leading 'exec' token
+        try:
+            client_name = getattr(self.client, 'name', '')
+            # If client is Claude, remove any 'exec' token left in the assembled command
+            if client_name and client_name.lower() == 'claude':
+                base = [tok for tok in base if tok != 'exec']
+        except Exception:
+            # Defensive: if anything goes wrong, leave the command unchanged
+            pass
+
         return base
 
     def _build_environment(self) -> dict[str, str]:
