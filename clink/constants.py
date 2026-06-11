@@ -45,4 +45,12 @@ INTERNAL_DEFAULTS: dict[str, CLIInternalDefaults] = {
         default_role_prompt="systemprompts/clink/default.txt",
         runner="claude",
     ),
+    "agy": CLIInternalDefaults(
+        parser="agy_text",
+        # --print is appended (with the prompt value) by AgyAgent; here we only
+        # supply the always-on flags needed for non-interactive execution.
+        additional_args=["--dangerously-skip-permissions"],
+        default_role_prompt="systemprompts/clink/default.txt",
+        runner="agy",
+    ),
 }
