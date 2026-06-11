@@ -47,6 +47,36 @@ Continue with clink gemini - implement the recommended feature
 
 ---
 
+## 🛠️ Fork Addition: Antigravity (`agy`) CLI support
+
+> This is a **WhaleCastle fork** customization, not part of upstream `BeehiveInnovations/pal-mcp-server`.
+
+This fork registers Google's **[Antigravity](https://antigravity.google) CLI (`agy`)** as a `clink` client, so it can be invoked alongside `gemini` / `codex` / `claude`:
+
+```text
+clink with cli_name="agy" role="default" to summarize the changes in this module
+```
+
+**Why it needs code, not just config:** unlike the other CLIs, `agy` takes the prompt as the value of its `--print` flag (not stdin) and emits **plain text** (no JSON mode). The integration therefore adds:
+
+| File | Purpose |
+|------|---------|
+| `clink/agents/agy.py` | `AgyAgent` — appends the assembled prompt as `--print "<prompt>"` |
+| `clink/parsers/agy.py` | `AgyTextParser` — surfaces plain-text stdout, stderr → metadata |
+| `clink/constants.py` | Registers `agy` in `INTERNAL_DEFAULTS` (parser `agy_text`, runner `agy`, `--dangerously-skip-permissions`) |
+| `clink/{agents,parsers}/__init__.py` | Wires the agent + parser into the registries |
+| `conf/cli_clients/agy.json` | Portable default config (`default` / `planner` / `codereviewer` roles) |
+
+**Setup on a new machine:**
+
+1. Install the Antigravity CLI and ensure `agy` is on your `PATH` (`which agy`).
+2. Clone this fork and run `./run-server.sh`, then point that machine's `pal` MCP entry at the clone and restart the session.
+3. _(Optional)_ For per-machine workspace directories, drop a `~/.pal/cli_clients/agy.json` override adding `--add-dir <path>` flags — these stay out of the repo so they don't break other servers.
+
+> **Note:** roles use `agy`'s default model (no `--model` override), because the CLI does not expose its model-alias format. Add model-specific roles once the alias values are confirmed.
+
+---
+
 ## Why PAL MCP?
 
 **Why rely on one AI model when you can orchestrate them all?**
