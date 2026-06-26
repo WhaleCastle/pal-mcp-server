@@ -3,7 +3,9 @@
   "command": "claude",
   "additional_args": [
     "--model",
-    "sonnet"
+    "sonnet",
+    "--add-dir",
+    "/Users/jimilee/DevProjects"
   ],
   "env": {},
   "roles": {

@@ -189,3 +189,7 @@ logs/
 /worktrees/
 test_simulation_files/
 .mcp.json
+
+# OMC/OMX runtime state (operational artifacts, never committed)
+.omc/
+.omx/
