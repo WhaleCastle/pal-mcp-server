@@ -1,12 +1,23 @@
 {
   "name": "codex",
   "command": "codex",
+  "timeout_seconds": 1500,
   "additional_args": [
     "--skip-git-repo-check",
     "--json",
     "--dangerously-bypass-approvals-and-sandbox",
-    "--enable",
-    "web_search_request"
+    "-c",
+    "features.hooks=false",
+    "-c",
+    "mcp_servers.pal.enabled=false",
+    "-c",
+    "mcp_servers.omx_state.enabled=false",
+    "-c",
+    "mcp_servers.omx_memory.enabled=false",
+    "-c",
+    "mcp_servers.omx_code_intel.enabled=false",
+    "-c",
+    "mcp_servers.omx_trace.enabled=false"
   ],
   "env": {},
   "roles": {
